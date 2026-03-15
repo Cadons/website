@@ -12,10 +12,6 @@ const allPosts = await getCollection('posts', ({data}) => !data.draft);
 const recentPosts = allPosts
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .slice(0, 3);
-/**
- * @brief Splits the input string into three parts: the text before the company name, the company name itself,
- * and the text after the company name. If the company name is not found in the input string, it returns null.
- **/
 function getBioParts(input: string, companyName: string) {
     const index = input.indexOf(companyName);
     if (index === -1) return null;
@@ -28,6 +24,7 @@ function getBioParts(input: string, companyName: string) {
 }
 
 const bioParts = getBioParts(config.bio, config.company);
+const splitBioLines = (text: string) => text.split('\n');
 ---
 
 <Layout title={`${config.author}`}>
@@ -39,15 +36,30 @@ const bioParts = getBioParts(config.bio, config.company);
         <p class="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
             {bioParts ? (
                     <>
-                        {bioParts.before}
+                        {splitBioLines(bioParts.before).map((line, i) => (
+                                <>
+                                    {i > 0 && <br />}
+                                    {line}
+                                </>
+                        ))}
                         <a href={config.company_url} target="_blank" rel="noopener"
                            class="text-zinc-700 dark:text-zinc-300 underline underline-offset-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                             {bioParts.company}
                         </a>
-                        {bioParts.after}
+                        {splitBioLines(bioParts.after).map((line, i) => (
+                                <>
+                                    {i > 0 && <br />}
+                                    {line}
+                                </>
+                        ))}
                     </>
             ) : (
-                config.bio
+                    splitBioLines(config.bio).map((line, i) => (
+                            <>
+                                {i > 0 && <br />}
+                                {line}
+                            </>
+                    ))
             )}
         </p>
 
