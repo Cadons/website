@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import config from '../../data/config.json';
 import { getCollection, getEntry } from 'astro:content';
-
+// Get all posts to generate static paths
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map(post => ({
@@ -11,10 +12,10 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await post.render();// Render the markdown content to get the Content component we can use in our page, it is a react component that will be rendered by astro
 ---
 
-<Layout title={`${post.data.title} — Matteo Cadoni`} description={post.data.description}>
+<Layout title={`${post.data.title} — ${config.author}`} description={post.data.description}>
 
   <!-- Post header -->
   <div class="mb-12">

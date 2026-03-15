@@ -7,7 +7,7 @@ import config from '../data/config.json';
 import {getCollection} from 'astro:content';
 
 const featuredProjects = projects.filter(p => p.featured);
-const {Summary: stackSummary, ...skills} = stack as Record<string, string[]>;
+const {Summary: stackSummary, ...devStack} = stack as Record<string, string[]>;
 const allPosts = await getCollection('posts', ({data}) => !data.draft);
 const recentPosts = allPosts
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -38,7 +38,7 @@ const splitBioLines = (text: string) => text.split('\n');
                     <>
                         {splitBioLines(bioParts.before).map((line, i) => (
                                 <>
-                                    {i > 0 && <br />}
+                                    {i > 0 && <br/>}
                                     {line}
                                 </>
                         ))}
@@ -48,18 +48,18 @@ const splitBioLines = (text: string) => text.split('\n');
                         </a>
                         {splitBioLines(bioParts.after).map((line, i) => (
                                 <>
-                                    {i > 0 && <br />}
+                                    {i > 0 && <br/>}
                                     {line}
                                 </>
                         ))}
                     </>
             ) : (
-                    splitBioLines(config.bio).map((line, i) => (
-                            <>
-                                {i > 0 && <br />}
-                                {line}
-                            </>
-                    ))
+                splitBioLines(config.bio).map((line, i) => (
+                        <>
+                            {i > 0 && <br/>}
+                            {line}
+                        </>
+                ))
             )}
         </p>
 
@@ -116,11 +116,11 @@ const splitBioLines = (text: string) => text.split('\n');
         </div>
     </section>
 
-    <!-- Skills -->
-    <section id="skills" class="mb-20">
+    <!-- Stack -->
+    <section id="devStack" class="mb-20">
         <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">stack</h2>
         <div class="grid grid-cols-3 gap-4">
-            {Object.entries(skills).map(([group, items]) => (
+            {Object.entries(devStack).map(([group, items]) => (
                     <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
                         <p class="font-mono text-xs text-zinc-400 mb-3 uppercase tracking-wider">{group}</p>
                         <ul class="space-y-1.5">

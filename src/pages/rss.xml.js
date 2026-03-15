@@ -1,11 +1,12 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-
+import config from '../data/config.json';
+//this is the function that will be called when the page is requested, it will return the rss feed
 export async function GET(context) {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   return rss({
-    title: 'Matteo Cadoni — Blog',
-    description: 'Notes on C++, open source, and medical software.',
+    title: `${config.author} — Blog`,
+    description: `Latest posts from ${config.author}'s blog.`,
     site: context.site,
     items: posts
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
