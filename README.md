@@ -1,4 +1,5 @@
 # matteocadoni.com
+![logo_dark.svg](public/logo_dark.svg)
 
 Personal site built with [Astro](https://astro.build) + Tailwind CSS. Hosted on GitHub Pages.
 

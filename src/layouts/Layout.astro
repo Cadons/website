@@ -39,9 +39,8 @@ const themeVars = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <script is:inline>
-    const canonicalHost = {JSON.stringify(config.domain)};
-    if (window.location.hostname === config.gh_pages_domain  && canonicalHost) {
+  <script is:inline define:vars={{ canonicalHost: config.domain, ghPagesHost: config.gh_pages_domain }}>
+    if (window.location.hostname === ghPagesHost && canonicalHost) {
       const canonicalUrl = `${window.location.protocol}//${canonicalHost}${window.location.pathname}${window.location.search}${window.location.hash}`;
       window.location.replace(canonicalUrl);
     }
@@ -83,8 +82,10 @@ const themeVars = [
   <!-- Nav -->
   <header class="sticky top-0 z-10 bg-[var(--color-nav-bg)] backdrop-blur border-b border-[var(--color-nav-border)] shadow-[0_1px_0_0_var(--color-nav-border)]">
     <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between"> <!--max-w-5xl indicate the max size of the page-->
-      <a href="/" class="font-mono text-sm font-medium tracking-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-        MC
+      <a href="/" aria-label={`${config.author} home`} class="flex items-center rounded-md transition-opacity hover:opacity-90">
+        <img src="/logo_light.svg" alt="" width="28" height="28" class="h-7 w-7 block dark:hidden" />
+        <img src="/logo_dark.svg" alt="" width="28" height="28" class="h-7 w-7 hidden dark:block" />
+        <span class="sr-only">{config.author}</span>
       </a>
       <div class="flex items-center gap-6">
         <a href="/#projects" class="text-sm text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Projects</a>
