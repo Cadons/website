@@ -39,6 +39,14 @@ const themeVars = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
+  <script is:inline>
+    const canonicalHost = {JSON.stringify(config.domain)};
+    if (window.location.hostname === config.gh_pages_domain  && canonicalHost) {
+      const canonicalUrl = `${window.location.protocol}//${canonicalHost}${window.location.pathname}${window.location.search}${window.location.hash}`;
+      window.location.replace(canonicalUrl);
+    }
+  </script>
+
   <!-- Dark mode: set class before paint to avoid flash -->
   <script is:inline>
     const theme = localStorage.getItem('theme');
