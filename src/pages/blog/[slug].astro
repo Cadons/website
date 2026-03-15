@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} — Matteo Cadoni`} description={post.data.description}>
+
+  <!-- Post header -->
+  <div class="mb-12">
+    <div class="flex flex-wrap gap-2 mb-4">
+      {post.data.tags.map(tag => (
+        <span class="font-mono text-xs bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded">
+          {tag}
+        </span>
+      ))}
+    </div>
+    <h1 class="text-2xl font-medium tracking-tight mb-3 leading-snug">
+      {post.data.title}
+    </h1>
+    <p class="text-sm text-zinc-400 font-mono">
+      {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+  </div>
+
+  <!-- Post content -->
+  <article class="prose prose-zinc dark:prose-invert prose-sm max-w-none
+    prose-headings:font-medium prose-headings:tracking-tight
+    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+    prose-code:font-mono prose-code:text-sm
+    prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800
+  ">
+    <Content />
+  </article>
+
+  <!-- Back link -->
+  <div class="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-800">
+    <a href="/blog" class="font-mono text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+      ← all posts
+    </a>
+  </div>
+
+</Layout>

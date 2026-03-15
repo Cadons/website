@@ -1,0 +1,24 @@
+[
+  {
+    "name": "ctus",
+    "description": "C++ client library for the tus resumable upload protocol. Async, chunked, multi-platform CI.",
+    "url": "https://github.com/Cadons/ctus",
+    "lang": "C++",
+    "license": "MIT",
+    "version": "v1.0.0",
+    "stars": 7,
+    "featured": true,
+    "topics": ["cpp", "tus-protocol", "resumable-uploads", "http-client"]
+  },
+  {
+    "name": "Docraft",
+    "description": "Declarative PDF generation in C++23 using XML markup. No external tools or runtime dependencies.",
+    "url": "https://github.com/Cadons/Docraft",
+    "lang": "C++",
+    "license": "Apache-2.0",
+    "version": "v1.0.0-beta.1",
+    "stars": 1,
+    "featured": true,
+    "topics": ["cpp23", "pdf-generation", "document-generator", "templating-engine"]
+  }
+]

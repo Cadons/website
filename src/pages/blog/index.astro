@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group posts by year
+const postsByYear = posts.reduce((acc, post) => {
+  const year = post.data.date.getFullYear().toString();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {} as Record<string, typeof posts>);
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<Layout title="Blog — Matteo Cadoni" description="Technical writing on C++, medical software, DevOps, and open source.">
+
+  <div class="mb-12">
+    <p class="font-mono text-xs text-zinc-400 mb-4 tracking-widest uppercase">writing</p>
+    <h1 class="text-2xl font-medium tracking-tight mb-3">Blog</h1>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400">
+      Notes on C++, open source, medical software, and whatever I'm building.
+    </p>
+  </div>
+
+  {years.map(year => (
+    <div class="mb-10">
+      <p class="font-mono text-xs text-zinc-300 dark:text-zinc-600 mb-4">{year}</p>
+      <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
+        {postsByYear[year].map(post => (
+          <a
+            href={`/blog/${post.slug}`}
+            class="group flex items-start justify-between py-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 -mx-3 px-3 rounded-lg transition-colors"
+          >
+            <div>
+              <p class="text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
+                {post.data.title}
+              </p>
+              <p class="text-xs text-zinc-400 leading-relaxed max-w-md">{post.data.description}</p>
+            </div>
+            <div class="flex items-center gap-2 ml-6 flex-shrink-0">
+              <span class="font-mono text-xs text-zinc-400">
+                {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  {posts.length === 0 && (
+    <p class="text-sm text-zinc-400">No posts yet. Coming soon.</p>
+  )}
+
+</Layout>

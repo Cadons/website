@@ -1,0 +1,84 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Software Engineer — Medical Software & C++ Open Source' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Dark mode: set class before paint to avoid flash -->
+  <script is:inline>
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased transition-colors duration-200">
+
+  <!-- Nav -->
+  <header class="sticky top-0 z-10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur border-b border-zinc-100 dark:border-zinc-800">
+    <nav class="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="/" class="font-mono text-sm font-medium tracking-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        MC
+      </a>
+      <div class="flex items-center gap-6">
+        <a href="/#projects" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">projects</a>
+        <a href="/blog" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">blog</a>
+        <a href="https://github.com/Cadons" target="_blank" rel="noopener" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
+          github ↗
+        </a>
+        <!-- Dark mode toggle -->
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="Toggle dark mode">
+          <svg id="icon-sun" class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+          </svg>
+          <svg id="icon-moon" class="block dark:hidden w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-100 dark:border-zinc-800 mt-16">
+    <div class="max-w-2xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <span class="font-mono text-xs text-zinc-400">matteocadoni.com</span>
+      <div class="flex items-center gap-5">
+        <a href="https://github.com/Cadons" target="_blank" rel="noopener" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">GitHub</a>
+        <a href="https://www.linkedin.com/in/matteo-cadoni-352488187/" target="_blank" rel="noopener" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">LinkedIn</a>
+        <a href="/rss.xml" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">RSS</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>
