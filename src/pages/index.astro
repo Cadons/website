@@ -120,7 +120,7 @@ const splitBioLines = (text: string) => text.split('\n');
     <!-- Stack -->
     <section id="devStack" class="mb-20">
         <h2 class="font-mono text-xs text-[var(--color-text-subtle)] mb-6 tracking-widest uppercase">stack</h2>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
             {Object.entries(devStack).map(([group, items]) => (
                     <div class="bg-[var(--color-card-bg)] border border-[var(--color-line)] rounded-xl p-4">
                         <p class="font-mono text-xs text-[var(--color-text-subtle)] mb-3 uppercase tracking-wider">{group}</p>
