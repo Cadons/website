@@ -15,7 +15,13 @@ const { post } = Astro.props;
 const { Content } = await post.render();// Render the markdown content to get the Content component we can use in our page, it is a react component that will be rendered by astro
 ---
 
-<Layout title={`${post.data.title} — ${config.author}`} description={post.data.description}>
+<Layout
+  title={`${post.data.title} — ${config.author}`}
+  description={post.data.description}
+  keywords={post.data.tags}
+  type="article"
+  publishedDate={post.data.date}
+>
 
   <!-- Post header -->
   <div class="mb-12">

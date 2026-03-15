@@ -1,11 +1,32 @@
 ---
 import config from '../data/config.json';
+
 interface Props {
   title: string;
   description?: string;
+  /** keywords array (e.g. post tags) rendered as <meta name="keywords"> */
+  keywords?: string[];
+  /** Open Graph image URL (absolute). Falls back to /og-default.png */
+  image?: string;
+  /** 'article' for blog posts, 'website' for everything else */
+  type?: 'website' | 'article';
+  /** ISO date string for article published_time */
+  publishedDate?: Date;
 }
 
-const { title, description = 'Software Engineer' } = Astro.props;
+const {
+  title,
+  description = config.job,
+  keywords = [],
+  image,
+  type = 'website',
+  publishedDate,
+} = Astro.props;
+
+const siteUrl = `https://${config.domain}`;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImage = image ?? `${siteUrl}/og-default.png`;
+
 const { light, dark } = config.theme;
 //create css variables taking the light and dark theme colors from the config file
 const themeVars = [
@@ -30,8 +51,33 @@ const themeVars = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description} />
+
+  <!-- Primary meta -->
   <title>{title}</title>
+  <meta name="description" content={description} />
+  {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+  <meta name="author" content={config.author} />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:site_name" content={config.author} />
+  <meta property="og:locale" content="en_US" />
+  {type === 'article' && publishedDate && (
+    <meta property="article:published_time" content={publishedDate.toISOString()} />
+  )}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Fonts -->
