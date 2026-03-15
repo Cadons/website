@@ -1,0 +1,6 @@
+{
+  "Summary": ["C++", "Medical software", "DevOps", "Docker", "CMake", "Rust"],
+  "Languages":  ["C++", "Python", "C#", "Rust"],
+  "Tools":      ["CMake", "Docker", "vcpkg", "Git"],
+  "DevOps":     ["GitHub Actions", "GitLab CI", "Ansible"]
+}

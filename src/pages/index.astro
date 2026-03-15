@@ -2,138 +2,164 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import projects from '../data/projects.json';
-import { getCollection } from 'astro:content';
+import stack from '../data/dev-stack.json';
+import config from '../data/config.json';
+import {getCollection} from 'astro:content';
 
 const featuredProjects = projects.filter(p => p.featured);
-
-const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const {Summary: stackSummary, ...skills} = stack as Record<string, string[]>;
+const allPosts = await getCollection('posts', ({data}) => !data.draft);
 const recentPosts = allPosts
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .slice(0, 3);
+/**
+ * @brief Splits the input string into three parts: the text before the company name, the company name itself,
+ * and the text after the company name. If the company name is not found in the input string, it returns null.
+ **/
+function getBioParts(input: string, companyName: string) {
+    const index = input.indexOf(companyName);
+    if (index === -1) return null;
 
-const skills = {
-  Languages:  ['C++23', 'Python', 'CMake', 'Shell'],
-  DevOps:     ['Docker', 'GitHub Actions', 'GitLab CI', 'vcpkg'],
-  Domain:     ['Medical software', 'Security', 'Game dev', 'ICT'],
-};
+    return {
+        before: input.slice(0, index),
+        company: companyName,
+        after: input.slice(index + companyName.length),
+    };
+}
+
+const bioParts = getBioParts(config.bio, config.company);
 ---
 
-<Layout title="Matteo Cadoni — Software Engineer">
+<Layout title={`${config.author}`}>
 
-  <!-- Hero -->
-  <section class="mb-20">
-    <p class="font-mono text-xs text-zinc-400 mb-4 tracking-widest uppercase">software engineer</p>
-    <h1 class="text-3xl font-medium tracking-tight mb-3">Matteo Cadoni</h1>
-    <p class="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
-      I build medical software at <a href="https://www.medacta.com" target="_blank" rel="noopener" class="text-zinc-700 dark:text-zinc-300 underline underline-offset-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Medacta International</a>.
-      In my spare time I write open source C++ libraries.
-      Interested in DevOps, security, and game dev.
-    </p>
+    <!-- Hero -->
+    <section class="mb-20">
+        <p class="font-mono text-xs text-zinc-400 mb-4 tracking-widest uppercase">{config.job}</p>
+        <h1 class="text-3xl font-medium tracking-tight mb-3">{config.author}</h1>
+        <p class="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
+            {bioParts ? (
+                    <>
+                        {bioParts.before}
+                        <a href={config.company_url} target="_blank" rel="noopener"
+                           class="text-zinc-700 dark:text-zinc-300 underline underline-offset-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            {bioParts.company}
+                        </a>
+                        {bioParts.after}
+                    </>
+            ) : (
+                config.bio
+            )}
+        </p>
 
-    <!-- Skill pills -->
-    <div class="flex flex-wrap gap-2 mb-8">
-      {['C++23', 'CMake', 'Docker', 'CI/CD', 'Medical software', 'DevOps'].map(s => (
-        <span class="font-mono text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-md">
+        <!-- Skill pills -->
+        <div class="flex flex-wrap gap-2 mb-8">
+            {stackSummary.map(s => (
+                    <span class="font-mono text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-md">
           {s}
         </span>
-      ))}
-    </div>
-
-    <!-- Links -->
-    <div class="flex flex-wrap gap-3">
-      <a
-        href="https://github.com/Cadons"
-        target="_blank" rel="noopener"
-        class="inline-flex items-center gap-1.5 text-sm bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2 rounded-lg font-medium hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
-      >
-        GitHub ↗
-      </a>
-      <a
-        href="https://www.linkedin.com/in/matteo-cadoni-352488187/"
-        target="_blank" rel="noopener"
-        class="inline-flex items-center gap-1.5 text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-lg font-medium hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
-      >
-        LinkedIn ↗
-      </a>
-      <a
-        href="mailto:matteo@matteocadoni.com"
-        class="inline-flex items-center gap-1.5 text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-lg font-medium hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
-      >
-        Email
-      </a>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="mb-20">
-    <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">open source</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {featuredProjects.map(p => (
-        <ProjectCard
-          name={p.name}
-          description={p.description}
-          url={p.url}
-          lang={p.lang}
-          license={p.license}
-          version={p.version}
-          stars={p.stars}
-          topics={p.topics}
-        />
-      ))}
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="mb-20">
-    <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">stack</h2>
-    <div class="grid grid-cols-3 gap-4">
-      {Object.entries(skills).map(([group, items]) => (
-        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-          <p class="font-mono text-xs text-zinc-400 mb-3 uppercase tracking-wider">{group}</p>
-          <ul class="space-y-1.5">
-            {items.map(item => (
-              <li class="text-sm text-zinc-600 dark:text-zinc-400">{item}</li>
             ))}
-          </ul>
         </div>
-      ))}
-    </div>
-  </section>
 
-  <!-- Blog preview -->
-  {recentPosts.length > 0 && (
-    <section id="blog" class="mb-20">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="font-mono text-xs text-zinc-400 tracking-widest uppercase">writing</h2>
-        <a href="/blog" class="font-mono text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
-          all posts →
-        </a>
-      </div>
-      <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
-        {recentPosts.map(post => (
-          <a
-            href={`/blog/${post.slug}`}
-            class="group flex items-start justify-between py-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 -mx-3 px-3 rounded-lg transition-colors"
-          >
-            <div>
-              <p class="text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
-                {post.data.title}
-              </p>
-              <p class="text-xs text-zinc-400 font-mono">
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </p>
-            </div>
-            <div class="flex items-center gap-2 ml-4 flex-shrink-0">
-              {post.data.tags.slice(0,1).map(tag => (
-                <span class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded font-mono">
+        <!-- Links -->
+        <div class="flex flex-wrap gap-3">
+            <a
+                    href={config.social.github}
+                    target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-1.5 text-sm bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2 rounded-lg font-medium hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
+            >
+                GitHub ↗
+            </a>
+            <a
+                    href={config.social.linkedin}
+                    target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-1.5 text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-lg font-medium hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
+            >
+                LinkedIn ↗
+            </a>
+            <a
+                    href={`mailto:${config.social.email}`}
+                    class="inline-flex items-center gap-1.5 text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-4 py-2 rounded-lg font-medium hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors"
+            >
+                Email
+            </a>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="mb-20">
+        <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">Projects</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {featuredProjects.map(p => (
+                    <ProjectCard
+                            name={p.name}
+                            description={p.description}
+                            url={p.url}
+                            lang={p.lang}
+                            license={p.license}
+                            version={p.version}
+                            stars={p.stars}
+                            topics={p.topics}
+                    />
+            ))}
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="mb-20">
+        <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">stack</h2>
+        <div class="grid grid-cols-3 gap-4">
+            {Object.entries(skills).map(([group, items]) => (
+                    <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+                        <p class="font-mono text-xs text-zinc-400 mb-3 uppercase tracking-wider">{group}</p>
+                        <ul class="space-y-1.5">
+                            {items.map(item => (
+                                    <li class="text-md text-zinc-600 dark:text-zinc-400">{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Blog preview -->
+    {recentPosts.length > 0 && (
+            <section id="blog" class="mb-20">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-mono text-xs text-zinc-400 tracking-widest uppercase">writing</h2>
+                    <a href="/blog"
+                       class="font-mono text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                        all posts →
+                    </a>
+                </div>
+                <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    {recentPosts.map(post => (
+                            <a
+                                    href={`/blog/${post.slug}`}
+                                    class="group flex items-start justify-between py-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 -mx-3 px-3 rounded-lg transition-colors"
+                            >
+                                <div>
+                                    <p class="text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
+                                        {post.data.title}
+                                    </p>
+                                    <p class="text-xs text-zinc-400 font-mono">
+                                        {post.data.date.toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2 ml-4 flex-shrink-0">
+                                    {post.data.tags.slice(0, 1).map(tag => (
+                                            <span class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded font-mono">
                   {tag}
                 </span>
-              ))}
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  )}
+                                    ))}
+                                </div>
+                            </a>
+                    ))}
+                </div>
+            </section>
+    )}
 
 </Layout>

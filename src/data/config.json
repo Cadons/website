@@ -1,0 +1,15 @@
+{
+  "domain": "matteocadoni.com",
+  "author": "Matteo Cadoni",
+  "job": "Software Engineer",
+  "bio": "Hi, I'm Matteo Cadoni, a software engineer at Medacta International SA. I build medical software and write open source C++ libraries.",
+  "company": "Medacta International SA",
+  "company_url": "https://www.medacta.com",
+  "country": "Italy",
+  "avatar": "/avatar.png",
+  "social": {
+    "github": "https://github.com/Cadons",
+    "linkedin": "https://www.linkedin.com/in/matteo-cadoni/",
+    "email": "matteo.cadoni@gmail.com"
+  }
+}
