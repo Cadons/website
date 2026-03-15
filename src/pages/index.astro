@@ -9,6 +9,7 @@ import {getCollection} from 'astro:content';
 const featuredProjects = projects.filter(p => p.featured);
 const {Summary: stackSummary, ...devStack} = stack as Record<string, string[]>;
 const allPosts = await getCollection('posts', ({data}) => !data.draft);
+//take the last 3 posts sorted by date
 const recentPosts = allPosts
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .slice(0, 3);
@@ -31,9 +32,9 @@ const splitBioLines = (text: string) => text.split('\n');
 
     <!-- Hero -->
     <section class="mb-20">
-        <p class="font-mono text-xs text-zinc-400 mb-4 tracking-widest uppercase">{config.job}</p>
+        <p class="font-mono text-xs text-[var(--color-text-subtle)] mb-4 tracking-widest uppercase">{config.job}</p>
         <h1 class="text-3xl font-medium tracking-tight mb-3">{config.author}</h1>
-        <p class="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
+        <p class="text-[var(--color-text-muted)] mb-6 leading-relaxed">
             {bioParts ? (
                     <>
                         {splitBioLines(bioParts.before).map((line, i) => (
@@ -66,7 +67,7 @@ const splitBioLines = (text: string) => text.split('\n');
         <!-- Skill pills -->
         <div class="flex flex-wrap gap-2 mb-8">
             {stackSummary.map(s => (
-                    <span class="font-mono text-xs border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-md">
+                    <span class="font-mono text-xs border border-[var(--color-line)] text-[var(--color-text-subtle)] px-2.5 py-1 rounded-md">
           {s}
         </span>
             ))}
@@ -99,7 +100,7 @@ const splitBioLines = (text: string) => text.split('\n');
 
     <!-- Projects -->
     <section id="projects" class="mb-20">
-        <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">Projects</h2>
+        <h2 class="font-mono text-xs text-[var(--color-text-subtle)] mb-6 tracking-widest uppercase">Projects</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {featuredProjects.map(p => (
                     <ProjectCard
@@ -118,14 +119,14 @@ const splitBioLines = (text: string) => text.split('\n');
 
     <!-- Stack -->
     <section id="devStack" class="mb-20">
-        <h2 class="font-mono text-xs text-zinc-400 mb-6 tracking-widest uppercase">stack</h2>
+        <h2 class="font-mono text-xs text-[var(--color-text-subtle)] mb-6 tracking-widest uppercase">stack</h2>
         <div class="grid grid-cols-3 gap-4">
             {Object.entries(devStack).map(([group, items]) => (
-                    <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
-                        <p class="font-mono text-xs text-zinc-400 mb-3 uppercase tracking-wider">{group}</p>
+                    <div class="bg-[var(--color-card-bg)] border border-[var(--color-line)] rounded-xl p-4">
+                        <p class="font-mono text-xs text-[var(--color-text-subtle)] mb-3 uppercase tracking-wider">{group}</p>
                         <ul class="space-y-1.5">
                             {items.map(item => (
-                                    <li class="text-md text-zinc-600 dark:text-zinc-400">{item}</li>
+                                    <li class="text-md text-[var(--color-text-muted)]">{item}</li>
                             ))}
                         </ul>
                     </div>
@@ -137,23 +138,23 @@ const splitBioLines = (text: string) => text.split('\n');
     {recentPosts.length > 0 && (
             <section id="blog" class="mb-20">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="font-mono text-xs text-zinc-400 tracking-widest uppercase">writing</h2>
+                    <h2 class="font-mono text-xs text-[var(--color-text-subtle)] tracking-widest uppercase">writing</h2>
                     <a href="/blog"
-                       class="font-mono text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                       class="font-mono text-xs text-[var(--color-text-subtle)] hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors">
                         all posts →
                     </a>
                 </div>
-                <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                <div class="divide-y divide-[var(--color-line)]">
                     {recentPosts.map(post => (
                             <a
                                     href={`/blog/${post.slug}`}
-                                    class="group flex items-start justify-between py-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 -mx-3 px-3 rounded-lg transition-colors"
+                                    class="group flex items-start justify-between py-4 hover:bg-[var(--color-hover-surface)] -mx-3 px-3 rounded-lg transition-colors"
                             >
                                 <div>
                                     <p class="text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
                                         {post.data.title}
                                     </p>
-                                    <p class="text-xs text-zinc-400 font-mono">
+                                    <p class="text-xs text-[var(--color-text-subtle)] font-mono">
                                         {post.data.date.toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'short',

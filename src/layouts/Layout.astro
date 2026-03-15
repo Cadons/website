@@ -6,9 +6,27 @@ interface Props {
 }
 
 const { title, description = 'Software Engineer — Medical Software & C++ Open Source' } = Astro.props;
+const { light, dark } = config.theme;
+//create css variables taking the light and dark theme colors from the config file
+const themeVars = [
+  `--color-text-subtle-light:${light.textSubtle}`,
+  `--color-text-muted-light:${light.textMuted}`,
+  `--color-line-light:${light.line}`,
+  `--color-card-bg-light:${light.cardBg}`,
+  `--color-nav-bg-light:${light.navBg}`,
+  `--color-nav-border-light:${light.navBorder}`,
+  `--color-hover-surface-light:${light.hoverSurface}`,
+  `--color-text-subtle-dark:${dark.textSubtle}`,
+  `--color-text-muted-dark:${dark.textMuted}`,
+  `--color-line-dark:${dark.line}`,
+  `--color-card-bg-dark:${dark.cardBg}`,
+  `--color-nav-bg-dark:${dark.navBg}`,
+  `--color-nav-border-dark:${dark.navBorder}`,
+  `--color-hover-surface-dark:${dark.hoverSurface}`,
+].join(';');
 ---
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" style={themeVars}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,24 +45,46 @@ const { title, description = 'Software Engineer — Medical Software & C++ Open 
       document.documentElement.classList.add('dark');
     }
   </script>
+
+  <style is:global>
+    :root {
+      --color-text-subtle: var(--color-text-subtle-light);
+      --color-text-muted: var(--color-text-muted-light);
+      --color-line: var(--color-line-light);
+      --color-card-bg: var(--color-card-bg-light);
+      --color-nav-bg: var(--color-nav-bg-light);
+      --color-nav-border: var(--color-nav-border-light);
+      --color-hover-surface: var(--color-hover-surface-light);
+    }
+
+    .dark {
+      --color-text-subtle: var(--color-text-subtle-dark);
+      --color-text-muted: var(--color-text-muted-dark);
+      --color-line: var(--color-line-dark);
+      --color-card-bg: var(--color-card-bg-dark);
+      --color-nav-bg: var(--color-nav-bg-dark);
+      --color-nav-border: var(--color-nav-border-dark);
+      --color-hover-surface: var(--color-hover-surface-dark);
+    }
+  </style>
 </head>
 
 <body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased transition-colors duration-200">
 
   <!-- Nav -->
-  <header class="sticky top-0 z-10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur border-b border-zinc-100 dark:border-zinc-800">
+  <header class="sticky top-0 z-10 bg-[var(--color-nav-bg)] backdrop-blur border-b border-[var(--color-nav-border)] shadow-[0_1px_0_0_var(--color-nav-border)]">
     <nav class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between"> <!--max-w-5xl indicate the max size of the page-->
       <a href="/" class="font-mono text-sm font-medium tracking-tight hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
         MC
       </a>
       <div class="flex items-center gap-6">
-        <a href="/#projects" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Projects</a>
-        <a href="/blog" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Blog</a>
-        <a href={config.social.github} target="_blank" rel="noopener" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
+        <a href="/#projects" class="text-sm text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Projects</a>
+        <a href="/blog" class="text-sm text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Blog</a>
+        <a href={config.social.github} target="_blank" rel="noopener" class="text-sm text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
           GitHub ↗
         </a>
         <!-- Dark mode toggle -->
-        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="Toggle dark mode">
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-md text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-[var(--color-hover-surface)] transition-colors" aria-label="Toggle dark mode">
           <svg id="icon-sun" class="hidden dark:block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
           </svg>
@@ -62,13 +102,13 @@ const { title, description = 'Software Engineer — Medical Software & C++ Open 
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-zinc-100 dark:border-zinc-800 mt-16">
+  <footer class="border-t border-[var(--color-line)] mt-16">
     <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <span class="font-mono text-xs text-zinc-400">{config.domain}</span>
+      <span class="font-mono text-xs text-[var(--color-text-subtle)]">{config.domain}</span>
       <div class="flex items-center gap-5">
-        <a href={config.social.github} target="_blank" rel="noopener" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">GitHub</a>
-        <a href={config.social.linkedin} target="_blank" rel="noopener" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">LinkedIn</a>
-        <a href="/rss.xml" class="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">RSS</a>
+        <a href={config.social.github} target="_blank" rel="noopener" class="text-xs text-[var(--color-text-subtle)] hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors">GitHub</a>
+        <a href={config.social.linkedin} target="_blank" rel="noopener" class="text-xs text-[var(--color-text-subtle)] hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors">LinkedIn</a>
+        <a href="/rss.xml" class="text-xs text-[var(--color-text-subtle)] hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors">RSS</a>
       </div>
     </div>
   </footer>

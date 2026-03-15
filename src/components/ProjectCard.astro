@@ -17,16 +17,16 @@ const { name, description, url, lang, license, version, stars, topics } = Astro.
   href={url}
   target="_blank"
   rel="noopener"
-  class="group block border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
+  class="group block border border-[var(--color-line)] rounded-xl p-5 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
 >
   <div class="flex items-start justify-between mb-2">
     <span class="font-mono text-sm font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
       {name}
     </span>
-    <span class="text-xs text-zinc-400 font-mono">★ {stars}</span>
+    <span class="text-xs text-[var(--color-text-subtle)] font-mono">★ {stars}</span>
   </div>
 
-  <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4">
     {description}
   </p>
 
@@ -35,18 +35,18 @@ const { name, description, url, lang, license, version, stars, topics } = Astro.
       <span class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded font-mono">
         {lang}
       </span>
-      <span class="text-xs text-zinc-400">{license}</span>
-      <span class="text-xs text-zinc-400">{version}</span>
+      <span class="text-xs text-[var(--color-text-subtle)]">{license}</span>
+      <span class="text-xs text-[var(--color-text-subtle)]">{version}</span>
     </div>
-    <span class="text-xs text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors">
+    <span class="text-xs text-[var(--color-text-subtle)] group-hover:text-zinc-800 dark:group-hover:text-zinc-200 transition-colors">
       ↗
     </span>
   </div>
 
   {topics.length > 0 && (
-    <div class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+    <div class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-[var(--color-line)]">
       {topics.map(t => (
-        <span class="text-xs text-zinc-400 dark:text-zinc-500 font-mono">#{t}</span>
+        <span class="text-xs text-[var(--color-text-subtle)] font-mono">#{t}</span>
       ))}
     </div>
   )}

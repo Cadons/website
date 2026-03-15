@@ -11,5 +11,25 @@
     "github": "https://github.com/Cadons",
     "linkedin": "https://www.linkedin.com/in/matteo-cadoni/",
     "email": "cadonsweb@gmail.com"
+  },
+  "theme": {
+    "light": {
+      "textSubtle": "#71717a",
+      "textMuted": "#52525b",
+      "line": "#d4d4d8",
+      "cardBg": "#f4f4f5",
+      "navBg": "rgba(244, 244, 245, 0.9)",
+      "navBorder": "#d4d4d8",
+      "hoverSurface": "#f4f4f5"
+    },
+    "dark": {
+      "textSubtle": "#a1a1aa",
+      "textMuted": "#d4d4d8",
+      "line": "#3f3f46",
+      "cardBg": "#18181b",
+      "navBg": "rgba(9, 9, 11, 0.9)",
+      "navBorder": "#27272a",
+      "hoverSurface": "rgba(24, 24, 27, 0.5)"
+    }
   }
 }

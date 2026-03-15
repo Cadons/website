@@ -19,32 +19,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # checkout the repository content to github runner.
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4 # install node and npm on github runner
         with:
           node-version: 20
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci # install dependencies using npm ci command, which is faster and more reliable than npm install.
 
       - name: Build
-        run: npm run build
+        run: npm run build # build the project
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3 # upload the dist folder to the artifact
         with:
           path: ./dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
+    environment: # create a deployment environment
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }} # reference the deployment URL from the build job
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4 # deploy the artifact to GitHub Pages, dist folder is the artifact
+
