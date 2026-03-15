@@ -3,3 +3,10 @@ node_modules/
 .astro/
 .env
 .DS_Store
+.idea
+.vscode/
+.vs
+*.log
+*.lock
+*.bak
+*.tmp
