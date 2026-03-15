@@ -36,6 +36,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare Pages artifact
+        run: |
+          touch ./dist/.nojekyll
+          if [ -f ./public/CNAME ]; then
+            cp ./public/CNAME ./dist/CNAME
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3 # upload the dist folder to the artifact
         with:
