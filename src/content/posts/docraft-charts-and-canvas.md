@@ -3,7 +3,7 @@ title: "Docraft can finally draw a chart"
 description: "RC3 adds Canvas, a free-form drawing surface, and Chart, five chart styles built on top of it — the two pieces every one of Docraft's example documents was quietly missing."
 date: 2026-08-02
 tags: [cpp, docraft, dataviz, open-source]
-draft: true
+draft: false
 ---
 
 Every one of the document types Docraft was designed for — invoices, medical reports, industrial QC reports — involves at least one number a reader is supposed to compare against another number. Until this week, the only way to make that comparison visible in a `.craft` document was a table. If you wanted a bar or a line instead, you were on your own: hand-position a stack of `<Rectangle>` elements and hope nobody asked you to change the data.

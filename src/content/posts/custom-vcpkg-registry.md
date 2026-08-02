@@ -3,7 +3,7 @@ title: "Why I run my own vcpkg registry"
 description: "A personal vcpkg registry where I publish preview builds of my own C++ libraries on my own schedule, instead of waiting on the official registry's review process."
 date: 2026-08-02
 tags: [cpp, vcpkg, open-source]
-draft: true
+draft: false
 ---
 
 Here's a small, verifiable fact: as of today, [Docraft's port in the official vcpkg registry](https://github.com/microsoft/vcpkg/blob/master/ports/docraft/vcpkg.json) is pinned to `v1.0.0-beta.3` — the version from March. The actual project has since gone through two release candidates and, as of a few hours ago, [`v1.0.0-RC3`](https://github.com/Cadons/Docraft/releases/tag/v1.0.0-RC3), which adds an entire charting system. Anyone installing `docraft` through the official registry right now gets none of that.

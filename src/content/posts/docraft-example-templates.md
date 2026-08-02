@@ -3,7 +3,7 @@ title: "Five templates that show what Docraft is actually for"
 description: "A walkthrough of Docraft's example gallery — invoice, shipping label, medical report, industrial QC report, and a chart-driven sales report — with the real rendered output for each."
 date: 2026-08-02
 tags: [cpp, docraft, open-source]
-draft: true
+draft: false
 ---
 
 When I first wrote about Docraft, the list of documents it was "designed for" was a bullet list of intentions: medical reports, invoices, industrial quality reports, shipping labels. It was accurate, but it was also a promise — none of those existed as something you could actually open and look at.
