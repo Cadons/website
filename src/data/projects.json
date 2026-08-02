@@ -5,7 +5,7 @@
     "url": "https://github.com/Cadons/ctus",
     "lang": "C++",
     "license": "MIT",
-    "version": "v1.0.0",
+    "version": "v1.0.1",
     "stars": 7,
     "featured": true,
     "topics": ["cpp", "tus-protocol", "resumable-uploads", "http-client"]
