@@ -3,7 +3,7 @@ title: "Docraft's rendering engine finally has a name: Loom"
 description: "How several months of refactoring turned Docraft's parse-to-PDF pipeline into a named, staged architecture — and why that mattered more than any single feature."
 date: 2026-08-02
 tags: [cpp, docraft, architecture, open-source]
-draft: true
+draft: false
 ---
 
 Back in March I wrote about [why I started building Docraft](/blog/docraft-intro) and what the library could already do. What I didn't write about — because it didn't really exist yet in any describable form — was how it worked internally. At `v1.0.0-beta.3`, the version that post described, going from a `.craft` file to a rendered PDF was one pass through a few thousand lines of code that did the parsing, the layout math, and the drawing in whatever order made a given feature work. It was fine for a beta. It was not something I could explain to a contributor in under ten minutes, and it was not something I could confidently extend without breaking something two layers away.
