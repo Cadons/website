@@ -16,7 +16,7 @@
     "url": "https://github.com/Cadons/Docraft",
     "lang": "C++",
     "license": "Apache-2.0",
-    "version": "v1.0.0-RC3",
+    "version": "v1.0.0-RC4",
     "stars": 2,
     "featured": true,
     "topics": ["cpp23", "pdf-generation", "document-generator", "templating-engine"]
